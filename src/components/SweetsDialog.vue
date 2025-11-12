@@ -1,188 +1,237 @@
 <script setup>
-defineProps({ dessert: Object });
-const model = defineModel();
+import { computed } from 'vue';
+
+const props = defineProps({
+  modelValue: Boolean,
+  dessert: { type: Object, default: () => ({}) },
+});
+const emit = defineEmits(['update:modelValue']);
+
+const model = computed({
+  get: () => props.modelValue,
+  set: (v) => emit('update:modelValue', v),
+});
+
+const PHONE = '+905551234567'; // zentrale Bestellnummer
 </script>
 
 <template>
-  <div>
-    <q-dialog v-model="model" persistent transition-show="scale" transition-hide="scale">
-      <q-card class="my-dialog-card">
-        <!-- Header -->
-        <q-card-section class="dialog-header row justify-between items-center">
-          <span class="text-h6 dialog-title">{{ dessert.name }}</span>
-          <q-btn flat round dense icon="close" color="#8B7D6B" @click="model = false" />
-        </q-card-section>
+  <q-dialog v-model="model" persistent transition-show="scale" transition-hide="scale">
+    <q-card class="my-dialog-card">
+      <!-- Header -->
+      <q-card-section class="dialog-header row items-center justify-between">
+        <div>
+          <div class="dialog-subtitle">Spezialität</div>
+          <div class="dialog-title">{{ dessert.name }}</div>
+        </div>
+        <q-btn
+          flat
+          round
+          dense
+          icon="close"
+          color="dark"
+          @click="model = false"
+          aria-label="Schließen"
+        />
+      </q-card-section>
 
-        <!-- Bild -->
-        <q-card-section class="q-pa-none image-section">
-          <img :src="dessert.image" class="card-image" />
-        </q-card-section>
+      <!-- Bild -->
+      <q-card-section class="q-pa-none image-wrap">
+        <q-img
+          :src="dessert.image"
+          :alt="dessert.name"
+          class="dialog-img"
+          spinner-color="amber"
+          :ratio="16 / 9"
+          :img-style="{ objectFit: 'cover' }"
+        />
+      </q-card-section>
 
-        <!-- Beschreibung -->
-        <q-card-section class="dialog-content">
-          <div class="text-body1 description">
-            {{ dessert.description }}
-          </div>
-          <div class="text-h6 text-right price">{{ dessert.price }} €</div>
-        </q-card-section>
+      <!-- Inhalt -->
+      <q-card-section class="dialog-content">
+        <div class="description">{{ dessert.description }}</div>
 
-        <!-- Zutaten -->
-        <q-card-section class="dialog-ingredients">
-          <div class="ingredients-title">Zutaten</div>
-          <q-list dense class="ingredients-list">
-            <q-item
-              v-for="(ingredient, index) in dessert.ingredients"
-              :key="index"
-              class="ingredient-item"
-            >
-              <q-item-section avatar>
-                <q-icon name="check_circle" color="#d4a373" />
-              </q-item-section>
-              <q-item-section class="ingredient-text">
-                {{ ingredient }}
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-card-section>
+        <div class="row items-center q-mt-sm">
+          <div class="price">{{ dessert.price ? dessert.price + ' €' : '' }}</div>
+          <q-space />
+          <!-- Telefon-Bestellung -->
+          <q-btn
+            unelevated
+            class="order-btn"
+            color="gold"
+            :href="`tel:${PHONE}`"
+            aria-label="Per Telefon bestellen"
+            target="_self"
+          >
+            <q-icon name="phone" class="q-mr-xs" /> Per Telefon bestellen
+          </q-btn>
+        </div>
 
-        <!-- Bestellinfo -->
-        <q-card-section class="order-section text-center">
-          <div class="order-text">Jetzt telefonisch bestellen unter</div>
-          <div class="order-number">+90 555 123 4567</div>
-        </q-card-section>
+        <div class="order-note q-mt-sm">
+          Rufen Sie uns an: <a :href="`tel:${PHONE}`" class="phone-link">{{ PHONE }}</a>
+        </div>
+      </q-card-section>
 
-        <!-- Footer -->
-        <q-card-actions align="right" class="dialog-footer">
-          <q-btn flat label="Schließen" color="#8B7D6B" class="close-btn" @click="model = false" />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
-  </div>
+      <!-- Zutaten -->
+      <q-card-section class="dialog-ingredients">
+        <div class="ingredients-title">Zutaten</div>
+        <div class="chips-row q-gutter-sm">
+          <q-chip
+            v-for="(ing, idx) in dessert.ingredients || []"
+            :key="idx"
+            dense
+            outline
+            class="ingredient-chip"
+            text-color="dark"
+          >
+            <q-icon name="check_circle" size="16px" color="gold" class="q-mr-xs" />
+            {{ ing }}
+          </q-chip>
+        </div>
+      </q-card-section>
+
+      <!-- Footer -->
+      <q-card-actions align="right" class="dialog-footer">
+        <q-btn flat label="Schließen" color="dark" class="close-btn" @click="model = false" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
-<style>
-/* ==== Allgemeines Styling ==== */
+<style scoped>
+/* Basis / Schriftfamilien passend zur Seite */
 .my-dialog-card {
   width: 100%;
-  max-width: 480px;
-  border-radius: 18px;
+  max-width: 640px;
+  border-radius: 16px;
   overflow: hidden;
   background: #fffdf5;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
-  transition: all 0.3s ease;
-  animation: fadeIn 0.3s ease;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  font-family: 'Inter', 'Roboto', sans-serif;
 }
 
-/* ==== Header ==== */
+/* Header */
 .dialog-header {
-  background: linear-gradient(to right, #fff8dc, #fceac1);
+  background: linear-gradient(90deg, #fff8dc, #fceac1);
   padding: 0.8rem 1rem;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 }
-
+.dialog-subtitle {
+  font-size: 0.75rem;
+  color: #6b5e4f;
+  opacity: 0.9;
+}
 .dialog-title {
+  font-family: 'Inter', 'Roboto', sans-serif; /* nicht-serif */
   color: #8b7d6b;
   font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 1.15rem;
+  margin-top: 2px;
 }
 
-/* ==== Bild ==== */
-.image-section {
-  overflow: hidden;
+/* Bild */
+.image-wrap {
+  background: transparent;
 }
-.card-image {
+.dialog-img {
   width: 100%;
-  height: 280px;
+  max-height: 42vh;
+  min-height: 160px;
   object-fit: cover;
   display: block;
-  transition: transform 0.4s ease;
-}
-.my-dialog-card:hover .card-image {
-  transform: scale(1.03);
 }
 
-/* ==== Beschreibung ==== */
+/* Inhalt */
 .dialog-content {
   background-color: #fffaf0;
-  padding: 1.2rem 1.5rem;
+  padding: 1rem 1.25rem;
 }
 .description {
-  color: #6b5e4f;
-  font-size: 1rem;
+  color: #3a2d22;
   line-height: 1.6;
-  margin-bottom: 1rem;
-}
-.price {
-  font-weight: 700;
-  color: #8b7d6b;
-  font-size: 1.4rem;
-}
-
-/* ==== Zutaten ==== */
-.dialog-ingredients {
-  background-color: #fff8dc;
-  padding: 1rem 1.5rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-.ingredients-title {
-  font-weight: 600;
-  color: #8b7d6b;
+  font-size: 1rem;
   margin-bottom: 0.6rem;
 }
-.ingredients-list {
-  background-color: white;
-  border-radius: 10px;
-  padding: 0.4rem 0.2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-}
-.ingredient-item {
-  padding: 0.3rem 0.6rem;
-}
-.ingredient-text {
-  color: #6b5e4f;
-  font-size: 0.95rem;
-}
-
-/* ==== Bestellinfo ==== */
-.order-section {
-  background-color: #fff1c9;
-  padding: 1rem;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
-}
-.order-text {
-  color: #6b5e4f;
-  font-weight: 500;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-.order-number {
-  font-weight: 700;
-  font-size: 1.2rem;
+.price {
   color: #8b7d6b;
+  font-weight: 700;
+  font-size: 1.05rem;
 }
 
-/* ==== Footer ==== */
+/* Bestell-Button / Hinweis */
+.order-btn {
+  background-color: #d4a373;
+  color: #fff;
+  text-transform: none;
+  border-radius: 10px;
+  padding: 6px 14px;
+  font-weight: 600;
+}
+.order-btn:hover {
+  background-color: #b58963;
+}
+.order-note {
+  font-size: 0.9rem;
+  color: #6b5e4f;
+}
+.phone-link {
+  color: #8b7d6b;
+  font-weight: 700;
+  text-decoration: none;
+}
+.phone-link:hover {
+  text-decoration: underline;
+}
+
+/* Zutaten */
+.dialog-ingredients {
+  background-color: #fff8dc;
+  padding: 0.8rem 1.25rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.03);
+}
+.ingredients-title {
+  color: #8b7d6b;
+  font-weight: 600;
+  margin-bottom: 0.6rem;
+}
+.chips-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+.ingredient-chip {
+  background: white;
+  border-radius: 10px;
+  border-color: rgba(0, 0, 0, 0.04);
+  color: #3a2d22;
+}
+
+/* Footer */
 .dialog-footer {
-  background-color: #fffdf5;
-  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  background: #fffdf5;
+  border-top: 1px solid rgba(0, 0, 0, 0.04);
+  padding: 0.6rem 1rem;
 }
 .close-btn {
+  color: #3a2d22;
   font-weight: 600;
-  transition: 0.3s ease;
-}
-.close-btn:hover {
-  background-color: rgba(139, 125, 107, 0.1);
 }
 
-/* ==== Animation ==== */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: scale(0.97);
+/* Responsive */
+@media (max-width: 599px) {
+  .my-dialog-card {
+    max-width: 92vw;
   }
-  to {
-    opacity: 1;
-    transform: scale(1);
+  .dialog-img {
+    max-height: 30vh;
+  }
+  .dialog-title {
+    font-size: 1rem;
+  }
+  .description {
+    font-size: 0.95rem;
   }
 }
 </style>

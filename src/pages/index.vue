@@ -1,4 +1,9 @@
 <script setup>
+import { useQuasar } from 'quasar';
+import { toRefs } from 'vue';
+import { useMyStore } from '@/stores/myStore.js';
+
+const $q = useQuasar();
 const myStore = useMyStore();
 const { message } = toRefs(myStore.state);
 
@@ -10,90 +15,146 @@ const images = [
 </script>
 
 <template>
-  <div
-    class="hero-section row items-center q-gutter-lg"
-    style="position: relative; min-height: 60vh; padding: 3rem; overflow: hidden"
-  >
-    <!-- Dekorative Kreise innerhalb des Wrappers -->
+  <!-- Desktop (gt.md): Nebeneinander, Mobile (lt.md): gestapelt -->
+  <div>
     <div
-      style="
-        position: absolute;
-        width: 250px;
-        height: 250px;
-        border-radius: 50%;
-        background: rgba(212, 163, 115, 0.15);
-        top: 10px;
-        left: 10px;
-        z-index: 0;
-      "
-    ></div>
+      v-if="$q.screen.gt.md"
+      class="hero-section row items-center q-gutter-lg"
+      style="position: relative; min-height: 60vh; padding: 3rem; overflow: hidden"
+    >
+      <!-- Dekorative Kreise -->
+      <div
+        style="
+          position: absolute;
+          width: 250px;
+          height: 250px;
+          border-radius: 50%;
+          background: rgba(212, 163, 115, 0.15);
+          top: 10px;
+          left: 10px;
+          z-index: 0;
+        "
+      ></div>
+      <div
+        style="
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          background: rgba(212, 163, 115, 0.12);
+          top: 200px;
+          left: 100px;
+          z-index: 0;
+        "
+      ></div>
+      <div
+        style="
+          position: absolute;
+          width: 200px;
+          height: 200px;
+          border-radius: 50%;
+          background: rgba(212, 163, 115, 0.08);
+          top: 50px;
+          right: 50px;
+          z-index: 0;
+        "
+      ></div>
+      <div
+        style="
+          position: absolute;
+          width: 100px;
+          height: 100px;
+          border-radius: 50%;
+          background: rgba(212, 163, 115, 0.1);
+          bottom: 20px;
+          right: 150px;
+          z-index: 0;
+        "
+      ></div>
 
-    <div
-      style="
-        position: absolute;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: rgba(212, 163, 115, 0.12);
-        top: 200px;
-        left: 100px;
-        z-index: 0;
-      "
-    ></div>
+      <!-- Text links -->
+      <div class="col" style="position: relative; z-index: 1">
+        <h3 style="color: #8b7d6b; font-weight: 700; font-size: 3rem; margin-bottom: 1rem">
+          Hoşgeldiniz
+        </h3>
+        <p style="color: #6b5e4f; font-size: 1.1rem; line-height: 1.8; max-width: 500px">
+          Kahraman'ın Tatlı Dünyası'na hoşgeldiniz! Taze ve hochwertige Süßigkeiten werden mit Liebe
+          zubereitet und bieten Ihnen ein einzigartiges Geschmackserlebnis.
+        </p>
+      </div>
 
-    <div
-      style="
-        position: absolute;
-        width: 200px;
-        height: 200px;
-        border-radius: 50%;
-        background: rgba(212, 163, 115, 0.08);
-        top: 50px;
-        right: 50px;
-        z-index: 0;
-      "
-    ></div>
-
-    <div
-      style="
-        position: absolute;
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        background: rgba(212, 163, 115, 0.1);
-        bottom: 20px;
-        right: 150px;
-        z-index: 0;
-      "
-    ></div>
-
-    <!-- Textbereich links -->
-    <div class="col" style="position: relative; z-index: 1">
-      <h3 style="color: #8b7d6b; font-weight: 700; font-size: 3rem; margin-bottom: 1rem">
-        Hoşgeldiniz
-      </h3>
-      <p style="color: #6b5e4f; font-size: 1.1rem; line-height: 1.8; max-width: 500px">
-        Kahraman'ın Tatlı Dünyası'na hoşgeldiniz! Taze ve hochwertige Süßigkeiten werden mit Liebe
-        zubereitet und bieten Ihnen ein einzigartiges Geschmackserlebnis.
-      </p>
+      <!-- Bild rechts -->
+      <div class="col-6 flex flex-center" style="position: relative; z-index: 1">
+        <q-img
+          src="/Home.png"
+          style="
+            border-radius: 16px;
+            max-width: 100%;
+            height: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+          "
+          alt="Tatlılar"
+        />
+      </div>
     </div>
 
-    <!-- Bild rechts -->
-    <div class="col flex flex-center" style="position: relative; z-index: 1">
-      <q-img
-        src="/Home.png"
+    <!-- Mobile / lt-md: gestapelt, Text oben, Bild unten -->
+    <div
+      v-else
+      class="hero-mobile column items-center q-pa-lg"
+      style="position: relative; padding: 1.5rem; overflow: hidden"
+    >
+      <!-- Dekorative Kreise (optional, weniger dominant auf mobile) -->
+      <div
         style="
-          border-radius: 16px;
-          max-width: 100%;
-          height: auto;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+          position: absolute;
+          width: 150px;
+          height: 150px;
+          border-radius: 50%;
+          background: rgba(212, 163, 115, 0.08);
+          top: 10px;
+          left: 10px;
+          z-index: 0;
         "
-        alt="Tatlılar"
-      />
+      ></div>
+
+      <!-- Text oben -->
+      <div style="position: relative; z-index: 1; text-align: center; margin-bottom: 1rem">
+        <h3 style="color: #8b7d6b; font-weight: 700; font-size: 2rem; margin-bottom: 0.5rem">
+          Hoşgeldiniz
+        </h3>
+        <p
+          style="color: #6b5e4f; font-size: 1rem; line-height: 1.6; max-width: 90vw; margin: 0 auto"
+        >
+          Kahraman'ın Tatlı Dünyası'na hoşgeldiniz! Taze und hochwertige Süßigkeiten werden mit
+          Liebe zubereitet und bieten Ihnen ein einzigartiges Geschmackserlebnis.
+        </p>
+      </div>
+
+      <!-- Bild unten -->
+      <div
+        style="
+          position: relative;
+          z-index: 1;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          margin-top: 1rem;
+        "
+      >
+        <q-img
+          src="/Home.png"
+          style="
+            border-radius: 12px;
+            max-width: 92%;
+            height: auto;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+          "
+          alt="Tatlılar"
+        />
+      </div>
     </div>
   </div>
-
-  <!-- Willkommensbereich -->
   <div
     class="hero-section column items-center q-pa-lg"
     style="
@@ -142,14 +203,14 @@ const images = [
       alt="Tatlılar"
     />
   </div>
-  <div class="q-mx-xl column items-start">
-    <h3 class="text-bold text-h3 q-mb-lg q-ml-lg">
-      Güvenilir Lezzet <q-separator inset color="black" />
-    </h3>
 
+  <!-- Restseite: SweetsCards + Galerie -->
+  <div class="q-mx-xl column items-start">
+    <h3 class="text-bold text-h3 q-mb-lg q-ml-lg">Güvenilir Lezzet</h3>
     <SweetsCards />
-    <h3 class="text-bold text-h3 q-mb-lg q-ml-lg">Arşiv <q-separator inset color="black" /></h3>
+    <h3 class="text-bold text-h3 q-mb-lg q-ml-lg">Arşiv</h3>
   </div>
+
   <div class="q-pa-md row justify-center">
     <q-card
       v-for="i in images"
@@ -157,10 +218,11 @@ const images = [
       style="background-color: #fdf1e0"
       class="my-img q-pa-md q-ma-lg"
     >
-      <img :src="i.src" />
+      <img :src="i.src" :alt="i.alt" style="width: 100%; height: auto; display: block" />
     </q-card>
   </div>
 </template>
+
 <style>
 .my-img {
   width: 100%;
@@ -172,4 +234,16 @@ const images = [
   transition: 0.3s ease;
 }
 
+/* zusätzliche Feinanpassungen */
+.hero-section {
+}
+.hero-mobile {
+}
+
+/* falls du trotzdem CSS-Breakpoints nutzen willst, diese sind als Fallback */
+@media (max-width: 991px) {
+  .hero-section {
+    flex-direction: column;
+  }
+}
 </style>

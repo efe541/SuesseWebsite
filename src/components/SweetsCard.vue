@@ -1,5 +1,8 @@
 <script setup>
-defineProps({ dessert: Object });
+import { ref } from 'vue';
+import SweetsDialog from './SweetsDialog.vue';
+
+const props = defineProps({ dessert: Object });
 
 const dialog = ref(false);
 const openDialog = () => {
@@ -8,125 +11,147 @@ const openDialog = () => {
 </script>
 
 <template>
-  <div class="card-wrapper q-pa-md">
-    <q-card class="my-card card">
-      <!-- Dessert Bild -->
-      <img :src="`${dessert.image}`" class="card-image" />
+  <div class="card-wrapper q-pa-sm">
+    <q-card class="my-card">
+      <q-img
+        :src="props.dessert.image"
+        :alt="props.dessert.name"
+        class="card-img"
+        :ratio="4 / 3"
+        spinner-color="amber"
+        :img-style="{ objectFit: 'cover' }"
+      />
 
-      <!-- Dessert Name -->
-      <q-card-section>
-        <div class="card-title-box">{{ dessert.name }}</div>
-      </q-card-section>
+      <q-card-section class="q-pt-sm q-px-md">
+        <div class="card-top row items-start">
+          <div class="card-title">{{ props.dessert.name }}</div>
+          <div class="price" v-if="props.dessert.price">{{ props.dessert.price }} €</div>
+        </div>
 
-      <!-- Dessert Beschreibung -->
-      <q-card-section class="q-pt-none">
-        <div class="card-description">
-          {{ dessert.description }}
+        <div class="card-description q-mt-xs">
+          {{ props.dessert.description }}
         </div>
       </q-card-section>
 
-      <!-- Read More Button -->
-      <q-card-actions align="right" class="q-pa-md">
-        <q-btn class="read-more-btn" @click="openDialog" label="Mehr Info" rounded unelevated />
+      <q-card-actions align="right" class="q-pa-sm q-pt-none">
+        <q-btn
+          class="read-more-btn"
+          unelevated
+          dense
+          @click="openDialog"
+          aria-label="Mehr Informationen"
+          label="Mehr Info"
+        />
       </q-card-actions>
     </q-card>
 
-    <!-- Dialog -->
-    <SweetsDialog v-model="dialog" :dessert="dessert" />
+    <SweetsDialog v-model="dialog" :dessert="props.dessert" />
   </div>
 </template>
 
-<style>
+<style scoped>
+/* Wrapper responsive */
 .card-wrapper {
   width: 100%;
-  max-width: 350px; /* Bessere Breite für Desktop */
+  max-width: 340px;
+  margin: 0 auto;
 }
 
-/* Karten Layout */
+/* Card visual */
 .my-card {
-  width: 100%;
-  height: 100%;
-  transition: all 0.3s ease;
-  border-radius: 16px;
+  border-radius: 14px;
   overflow: hidden;
-  background-color: white;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  background: #ffffff;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
   display: flex;
   flex-direction: column;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.my-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.12);
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-}
-
-/* Bild */
-.card-image {
+/* Image */
+.card-img {
   width: 100%;
-  height: 220px; /* Fixe Höhe für konsistentes Layout */
-  object-fit: cover;
-  display: block;
-  transition: transform 0.3s ease;
+  height: 220px;
 }
 
-.card:hover .card-image {
-  transform: scale(1.05);
+/* Top row: title + price */
+.card-top {
+  justify-content: space-between;
+  align-items: flex-start;
 }
-
-/* Titel */
-.card-title-box {
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 1.4rem;
+.card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.08rem;
   color: #8b7d6b;
-  margin-bottom: 0.5rem;
-  min-height: 40px; /* Mindesthöhe für konsistentes Layout */
+  font-weight: 700;
+  line-height: 1.1;
+  max-width: 75%;
+}
+.price {
+  color: #8b7d6b;
+  font-weight: 700;
+  font-size: 0.98rem;
+  padding-left: 8px;
 }
 
-/* Beschreibung */
+/* Description */
 .card-description {
-  font-family: 'Inter', sans-serif;
-  font-size: 1rem;
   color: #6b5e4f;
-  line-height: 1.6;
-  text-overflow: ellipsis;
-  overflow: hidden;
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  display: -webkit-box;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
-  display: -webkit-box;
-  min-height: 80px; /* Mindesthöhe für konsistentes Layout */
+  overflow: hidden;
+  min-height: 3.2rem;
 }
 
-/* Read More Button */
+/* Actions / Button */
+.q-card-actions {
+  align-items: center;
+}
 .read-more-btn {
   background-color: #d4a373;
-  color: white;
+  color: #fff;
+  border-radius: 10px;
+  padding: 6px 14px;
   font-weight: 600;
-  transition: 0.3s ease;
-  padding: 8px 20px;
+  text-transform: none;
 }
-
 .read-more-btn:hover {
   background-color: #b58963;
 }
 
-/* Responsive Anpassungen */
+/* Mobile adjustments */
 @media (max-width: 599px) {
   .card-wrapper {
     max-width: 100%;
+    padding-left: 8px;
+    padding-right: 8px;
   }
-
-  .card-image {
-    height: 180px;
+  .card-img {
+    height: 160px;
   }
-
-  .card-title-box {
-    font-size: 1.2rem;
+  .card-title {
+    font-size: 1rem;
+    max-width: 70%;
   }
-
   .card-description {
-    font-size: 0.9rem;
     -webkit-line-clamp: 2;
+    min-height: 2.6rem;
+    font-size: 0.94rem;
+  }
+  .price {
+    font-size: 0.95rem;
+  }
+  .read-more-btn {
+    padding: 6px 10px;
+    font-size: 0.92rem;
   }
 }
 </style>
