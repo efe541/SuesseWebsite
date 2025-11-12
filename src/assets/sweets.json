@@ -1,0 +1,76 @@
+{
+  "desserts": [
+    {
+      "id": 1,
+      "name": "Baklava",
+      "description": "Ein traditionelles orientalisches Gebäck aus hauchdünnem Blätterteig, gefüllt mit fein gehackten Walnüssen und Pistazien, verfeinert mit Honig oder Zuckersirup. Außen knusprig, innen süß und saftig – perfekt zu türkischem Tee oder Kaffee.",
+      "image": "/baklava.jpg",
+      "price": 4.5,
+      "ingredients": ["Blätterteig", "Walnüsse", "Pistazien", "Honig", "Zuckersirup", "Butter"]
+    },
+    {
+      "id": 2,
+      "name": "Pistazien-Baklava",
+      "description": "Eine edle Variante der klassischen Baklava mit einer extra Portion frisch gemahlener Pistazien, die für ein intensives Aroma und leuchtend grüne Farbe sorgen. Ideal für Liebhaber nussiger Süßspeisen.",
+      "image": "/baklava.jpg",
+      "price": 5.0,
+      "ingredients": ["Blätterteig", "Pistazien", "Honig", "Zuckersirup", "Butter"]
+    },
+    {
+      "id": 3,
+      "name": "Tulumba",
+      "description": "Tulumba sind frittierte, goldbraune Teigstücke mit einer knusprigen Außenseite und einem saftigen Inneren, die nach dem Frittieren in süßem Zuckersirup getränkt werden. Ein klassisches Dessert aus der türkischen und balkanischen Küche.",
+      "image": "/original.jpg",
+      "price": 3.8,
+      "ingredients": ["Weizenmehl", "Wasser", "Butter", "Zucker", "Öl", "Zuckersirup"]
+    },
+    {
+      "id": 4,
+      "name": "Vanilleeis",
+      "description": "Klassisches, cremiges Vanilleeis aus echter Bourbon-Vanille. Zartschmelzend, süß und perfekt als Begleitung zu warmen Desserts oder einfach pur als Genussmoment.",
+      "image": "/eisschoko.jpg",
+      "price": 2.5,
+      "ingredients": ["Milch", "Sahne", "Zucker", "Bourbon-Vanille", "Ei"]
+    },
+    {
+      "id": 5,
+      "name": "Schokoladeneis",
+      "description": "Intensiv schokoladig und wunderbar cremig. Hergestellt aus dunkler belgischer Schokolade, sorgt dieses Eis für ein vollmundiges Geschmackserlebnis.",
+      "image": "/eisschoko.jpg",
+      "price": 2.8,
+      "ingredients": ["Milch", "Sahne", "Zucker", "Dunkle Schokolade", "Ei"]
+    },
+    {
+      "id": 6,
+      "name": "Erdbeereis",
+      "description": "Fruchtig-frisches Eis aus sonnengereiften Erdbeeren, das den Geschmack des Sommers einfängt. Ohne künstliche Farbstoffe, einfach natürlich lecker.",
+      "image": "/eisschoko.jpg",
+      "price": 2.7,
+      "ingredients": ["Milch", "Sahne", "Zucker", "Erdbeeren", "Ei"]
+    },
+    {
+      "id": 7,
+      "name": "Haselnusseis",
+      "description": "Cremiges Eis mit gerösteten Haselnüssen, das einen wunderbar nussigen Geschmack bietet. Eine perfekte Kombination aus Süße und Röstaromen.",
+      "image": "/eisschoko.jpg",
+      "price": 2.9,
+      "ingredients": ["Milch", "Sahne", "Zucker", "Haselnüsse", "Ei"]
+    },
+    {
+      "id": 8,
+      "name": "Baklava-Eis",
+      "description": "Eine kreative Eisvariation, inspiriert vom orientalischen Klassiker Baklava. Cremiges Eis mit feinen Teigstücken, Honig und Pistazien – ein echter Genuss für Feinschmecker.",
+      "image": "/eisschoko.jpg",
+      "price": 3.5,
+      "ingredients": [
+        "Milch",
+        "Sahne",
+        "Zucker",
+        "Blätterteigstückchen",
+        "Pistazien",
+        "Honig",
+        "Ei"
+      ]
+    }
+  ]
+}
